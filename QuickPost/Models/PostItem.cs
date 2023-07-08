@@ -4,9 +4,9 @@
     {
         #region Public Properties
 
-        public string Channel { get; set; }
-        public string Message { get; set; }
-
+        public string Channel { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+    
         #endregion
     }
 }

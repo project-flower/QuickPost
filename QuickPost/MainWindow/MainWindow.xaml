@@ -9,6 +9,9 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
     <Grid>
         <Label
             x:Name="labelEndPoint"
@@ -20,11 +23,24 @@
             x:Name="textBoxEndPoint"
             Margin="78,14,10,0"
             VerticalAlignment="Top"
-            TextWrapping="Wrap" />
+            Text="{Binding EndPoint}"
+            TextWrapping="NoWrap" />
         <DataGrid
             x:Name="dataGridPostItems"
             Margin="10,41,10,35"
-            d:ItemsSource="{d:SampleData ItemCount=5}" />
+            AutoGenerateColumns="False"
+            ItemsSource="{Binding PostItems, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Channel}"
+                    Header="チャンネル" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Message}"
+                    Header="メッセージ" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Button
             x:Name="buttonOK"
             Width="60"
