@@ -1,0 +1,45 @@
+﻿<Window
+    x:Class="QuickPost.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:QuickPost"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Grid>
+        <Label
+            x:Name="labelEndPoint"
+            Margin="10,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="End Point:" />
+        <TextBox
+            x:Name="textBoxEndPoint"
+            Margin="78,14,10,0"
+            VerticalAlignment="Top"
+            TextWrapping="Wrap" />
+        <DataGrid
+            x:Name="dataGridPostItems"
+            Margin="10,41,10,35"
+            d:ItemsSource="{d:SampleData ItemCount=5}" />
+        <Button
+            x:Name="buttonOK"
+            Width="60"
+            Height="20"
+            Margin="0,0,75,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="OK" />
+        <Button
+            x:Name="buttonCancel"
+            Width="60"
+            Height="20"
+            Margin="0,0,10,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="Cancel" />
+    </Grid>
+</Window>
