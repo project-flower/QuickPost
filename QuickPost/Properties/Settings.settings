@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="QuickPost.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="BalloonTipTimeout" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3000</Value>
+    </Setting>
+    <Setting Name="ChatPostMessageEndpoint" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://slack.com/api/chat.postMessage</Value>
+    </Setting>
+    <Setting Name="ChatPostTokens" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CredTokenPrefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">QuickPost/Tokens/</Value>
+    </Setting>
+    <Setting Name="CredWebhookPrefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">QuickPost/Webhooks/</Value>
+    </Setting>
+    <Setting Name="IncomingWebhookRoot" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://hooks.slack.com/services/</Value>
+    </Setting>
+    <Setting Name="IsUserSettings" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="PostItems" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="WebhookUrls" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
