@@ -1,0 +1,6 @@
+﻿CredDeleteW
+CredFree
+CredReadW
+CredWriteW
+ERROR_NOT_FOUND
+SetForegroundWindow
