@@ -68,15 +68,14 @@ namespace QuickPost.PInvokes
             {
                 int size = (int)credential->CredentialBlobSize;
                 byte* credentialBlob = credential->CredentialBlob;
-                string? password = null;
+                char* password = null;
 
                 if ((size > 1) && (credentialBlob != null))
                 {
-                    password = Marshal.PtrToStringUni(new nint(credential->CredentialBlob), (size / sizeof(char)));
+                    password = (char*)credential->CredentialBlob;
                 }
 
-                var userName = new string(credential->UserName);
-                return new Credential(name, userName, password ?? string.Empty);
+                return new Credential(name, new string(credential->UserName), password, size);
             }
             finally
             {
@@ -86,30 +85,36 @@ namespace QuickPost.PInvokes
 
         public unsafe static void Write(Credential credential)
         {
-            string password = credential.Password;
+            nint bytes = Marshal.SecureStringToBSTR(credential.Password);
 
-            fixed (byte* bytes = Encoding.Unicode.GetBytes(password))
-            fixed (char* nameChars = credential.Name.ToCharArray())
-            fixed (char* userNameChars = credential.UserName.ToCharArray())
+            try
             {
-                var credentialw = new CREDENTIALW()
+                fixed (char* nameChars = credential.Name.ToCharArray())
+                fixed (char* userNameChars = credential.UserName.ToCharArray())
                 {
-                    AttributeCount = 0,
-                    Attributes = null,
-                    Comment = null,
-                    CredentialBlob = bytes,
-                    CredentialBlobSize = (uint)(password.Length * sizeof(char)),
-                    Persist = CRED_PERSIST.CRED_PERSIST_LOCAL_MACHINE,
-                    TargetAlias = null,
-                    TargetName = nameChars,
-                    Type = CRED_TYPE.CRED_TYPE_GENERIC,
-                    UserName = userNameChars
-                };
+                    CREDENTIALW credentialw = new()
+                    {
+                        AttributeCount = 0,
+                        Attributes = null,
+                        Comment = null,
+                        CredentialBlob = (byte*)bytes,
+                        CredentialBlobSize = (uint)(credential.Password.Length * sizeof(char)),
+                        Persist = CRED_PERSIST.CRED_PERSIST_LOCAL_MACHINE,
+                        TargetAlias = null,
+                        TargetName = nameChars,
+                        Type = CRED_TYPE.CRED_TYPE_GENERIC,
+                        UserName = userNameChars
+                    };
 
-                if (!PInvoke.CredWrite(credentialw, 0))
-                {
-                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                    if (!PInvoke.CredWrite(credentialw, 0))
+                    {
+                        throw new Win32Exception(Marshal.GetLastWin32Error());
+                    }
                 }
+            }
+            finally
+            {
+                Marshal.ZeroFreeBSTR(bytes);
             }
         }
 

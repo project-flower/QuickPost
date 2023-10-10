@@ -123,16 +123,16 @@ namespace QuickPost
 
         private static void PostChatPostMessage(ChatPostMessage message)
         {
-            Credential credential;
-
             try
             {
-                credential = CredentialManager.Read($"{credTokenPrefix}{message.TokenName}");
-                Dictionary<string, string> attachment = new() {
-                    { "token", credential.Password }
-                    , { "channel", message.Channel }
-                    , { "text", message.Text }};
-                PostUrlEncoded(chatPostMessageEndpoint, attachment);
+                using (Credential credential = CredentialManager.Read($"{credTokenPrefix}{message.TokenName}"))
+                {
+                    Dictionary<string, string> attachment = new() {
+                        { "token", (credential.Password.ToString() ?? string.Empty) }
+                        , { "channel", message.Channel }
+                        , { "text", message.Text }};
+                    PostUrlEncoded(chatPostMessageEndpoint, attachment);
+                }
             }
             catch
             {
@@ -142,12 +142,12 @@ namespace QuickPost
 
         private static void PostIncomingWebhook(IncomingWebhook webhook)
         {
-            Credential credential;
-
             try
             {
-                credential = CredentialManager.Read($"{credWebhookPrefix}{webhook.EndpointName}");
-                PostJson(credential.Password, webhook.Payload);
+                using (Credential credential = CredentialManager.Read($"{credWebhookPrefix}{webhook.EndpointName}"))
+                {
+                    PostJson((credential.Password.ToString() ?? string.Empty), webhook.Payload);
+                }
             }
             catch
             {
