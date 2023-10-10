@@ -50,7 +50,7 @@ namespace QuickPost.Views
             // Load application settings
             try
             {
-                LoadSettings();
+                LoadSettings(false);
 
                 if (!settings.IsUserSettings)
                 {
@@ -241,10 +241,12 @@ namespace QuickPost.Views
                 || isDirty);
         }
 
-        private void LoadSettings()
+        private void LoadSettings(bool loadFile)
         {
             try
             {
+                if (loadFile) settings.Reload();
+
                 WebEngine.Initialize(settings.ChatPostMessageEndpoint, settings.CredTokenPrefix, settings.CredWebhookPrefix);
                 credentialManageViewTokens.Values = ToEnumerable(settings.ChatPostTokens);
                 credentialManageViewWebhooks.Values = ToEnumerable(settings.WebhookUrls);
@@ -261,7 +263,7 @@ namespace QuickPost.Views
                 }
 
                 ApplyMenuItems();
-                isDirty = false;
+                RestoreDirty();
             }
             catch
             {
@@ -322,6 +324,15 @@ namespace QuickPost.Views
             notifyIcon.ShowBalloonTip(timeout, Text, message, icon);
         }
 
+        private void RestoreDirty()
+        {
+            mainView.IsDirty = false;
+            credentialManageViewTokens.IsDirty = false;
+            credentialManageViewWebhooks.IsDirty = false;
+            settingView.IsDirty = false;
+            isDirty = false;
+        }
+
         private void RestoreWindow()
         {
             if (!Visible) Show();
@@ -334,7 +345,7 @@ namespace QuickPost.Views
             BringToFront();
         }
 
-        private void SaveSettings()
+        private bool SaveSettings(bool showInformation)
         {
             try
             {
@@ -349,11 +360,17 @@ namespace QuickPost.Views
 
                 settings.PostItems = postItems;
                 settings.Save();
-                isDirty = false;
+                RestoreDirty();
+
+                if (showInformation) this.ShowInformation("設定を保存しました。");
+
+                return true;
             }
-            catch
+            catch (Exception exception)
             {
-                throw;
+                if (showInformation) this.ShowErrorMessage(exception);
+
+                return false;
             }
         }
 
@@ -455,28 +472,18 @@ namespace QuickPost.Views
             if (!IsDirty()) return;
 
             if (this.ShowMessage(
-                "設定が変更されています。\r\n設定ファイルを保存しますか？"
+                "ユーザー設定が変更されています。\r\nユーザー設定ファイルを保存しますか？"
                 , MessageBoxButtons.YesNo
-                , MessageBoxIcon.Warning) == DialogResult.Yes)
+                , MessageBoxIcon.Warning) != DialogResult.Yes)
             {
-                try
-                {
-                    SaveSettings();
-                }
-                catch (Exception exception)
-                {
-                    if (e.CloseReason == CloseReason.UserClosing)
-                    {
-                        this.ShowErrorMessage(exception);
-
-                        if (!ConfirmApplicationQuit())
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
-                    }
-                }
+                return;
             }
+
+            if (SaveSettings(true)) return;
+
+            if (e.CloseReason != CloseReason.UserClosing) return;
+
+            e.Cancel = !ConfirmApplicationQuit();
         }
 
         private void mainView_AddClick(object sender, MainViewClickEventArgs e)
@@ -527,7 +534,7 @@ namespace QuickPost.Views
         private void settingView_ApplyBalloonTipTimeoutClick(object sender, RequireAcceptEventArgs e)
         {
             settings.BalloonTipTimeout = settingView.BalloonTipTimeout;
-            isDirty = true;
+            e.Accepted = SaveSettings(true);
         }
 
         private void shown(object sender, EventArgs e)
@@ -557,7 +564,7 @@ namespace QuickPost.Views
 
             try
             {
-                LoadSettings();
+                LoadSettings(true);
             }
             catch (Exception exception)
             {
@@ -573,14 +580,7 @@ namespace QuickPost.Views
 
         private void toolStripMenuItemSave_Click(object sender, EventArgs e)
         {
-            try
-            {
-                SaveSettings();
-            }
-            catch (Exception exception)
-            {
-                this.ShowErrorMessage(exception);
-            }
+            SaveSettings(true);
         }
 
         private void toolStripMenuItemSettings_Click(object sender, EventArgs e)

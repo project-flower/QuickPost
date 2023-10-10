@@ -51,7 +51,7 @@ namespace QuickPost.Views
         {
             get => isDirty;
 
-            private set
+            set
             {
                 buttonApplyBalloonTipTimeout.Enabled = value;
                 isDirty = value;
@@ -72,7 +72,6 @@ namespace QuickPost.Views
         {
             InitializeComponent();
             settings.SettingsLoaded += settings_SettingsLoaded;
-            settings.PropertyChanged += settings_PropertyChanged;
 
             try
             {
@@ -105,11 +104,6 @@ namespace QuickPost.Views
         }
 
         private void settings_SettingsLoaded(object sender, System.Configuration.SettingsLoadedEventArgs e)
-        {
-            Apply();
-        }
-
-        private void settings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Apply();
         }

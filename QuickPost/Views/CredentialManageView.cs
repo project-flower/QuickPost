@@ -10,7 +10,7 @@ namespace QuickPost.Views
         public event CredentialManageViewClickEventHandler DeleteClick = delegate { };
         public event CredentialManageViewClickEventHandler EditClick = delegate { };
 
-        public bool IsDirty { get; private set; } = false;
+        public bool IsDirty { get; set; } = false;
 
         public IEnumerable<string> Values
         {
@@ -34,6 +34,8 @@ namespace QuickPost.Views
                 }
 
                 listBox.EndUpdate();
+
+                IsDirty = false;
             }
         }
 

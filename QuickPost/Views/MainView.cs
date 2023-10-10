@@ -10,7 +10,7 @@ namespace QuickPost.Views
         public event MainViewClickEventHandler AddClick = delegate { };
         public event MainViewClickEventHandler DeleteClick = delegate { };
         public event MainViewClickEventHandler EditClick = delegate { };
-        public bool IsDirty { get; private set; }
+        public bool IsDirty { get; set; }
 
         public IEnumerable<PostItem> Items
         {
@@ -49,6 +49,7 @@ namespace QuickPost.Views
         public void Initialize()
         {
             listView.Items.Clear();
+            IsDirty = false;
         }
 
         #endregion
