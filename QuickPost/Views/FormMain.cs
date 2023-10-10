@@ -7,6 +7,7 @@ using QuickPost.PInvokes.Public;
 using QuickPost.Properties;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Reflection;
 using System.Text.Json;
 
 namespace QuickPost.Views
@@ -23,6 +24,7 @@ namespace QuickPost.Views
         private bool isDirty = false;
         private FormWindowState prevWindowState = FormWindowState.Normal;
         private readonly Settings settings = Settings.Default;
+        private readonly MethodInfo? showContextMenuInTaskbar;
 
         #endregion
 
@@ -37,6 +39,9 @@ namespace QuickPost.Views
         public FormMain()
         {
             InitializeComponent();
+
+            // Get protected methods
+            showContextMenuInTaskbar = typeof(ContextMenuStrip).GetMethod("ShowInTaskbar", BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Set control properties
             notifyIcon.Icon = Icon;
@@ -270,7 +275,16 @@ namespace QuickPost.Views
             {
                 // Suppress display of task tray icon
                 WindowManager.SetForegroundWindow(contextMenuStrip.Handle);
-                contextMenuStrip.Show(Cursor.Position);
+
+                if (showContextMenuInTaskbar != null)
+                {
+                    Point position = Cursor.Position;
+                    showContextMenuInTaskbar.Invoke(contextMenuStrip, new object[] { position.X, position.Y });
+                }
+                else
+                {
+                    contextMenuStrip.Show(Cursor.Position);
+                }
             }
         }
 
