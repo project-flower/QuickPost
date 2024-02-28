@@ -50,6 +50,12 @@ namespace QuickPost.Views
             // Load application settings
             try
             {
+                if (!settings.Upgraded)
+                {
+                    settings.Upgrade();
+                    settings.Upgraded = true;
+                }
+
                 LoadSettings(false);
 
                 if (!settings.IsUserSettings)
