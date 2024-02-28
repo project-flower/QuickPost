@@ -30,6 +30,9 @@
         {
             labelName = new Label();
             textBoxName = new TextBox();
+            labelIcon = new Label();
+            textBoxIconFile = new TextBox();
+            buttonBrowseIcon = new Button();
             tabControl = new TabControl();
             tabPageChatPostMessage = new TabPage();
             textBoxText = new TextBox();
@@ -46,6 +49,7 @@
             buttonTest = new Button();
             buttonOk = new Button();
             buttonCancel = new Button();
+            openFileDialogIcon = new OpenFileDialog();
             tabControl.SuspendLayout();
             tabPageChatPostMessage.SuspendLayout();
             tabPageIncomingWebhook.SuspendLayout();
@@ -63,21 +67,49 @@
             // textBoxName
             // 
             textBoxName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxName.Location = new Point(69, 12);
+            textBoxName.Location = new Point(74, 12);
             textBoxName.Name = "textBoxName";
-            textBoxName.Size = new Size(519, 23);
+            textBoxName.Size = new Size(514, 23);
             textBoxName.TabIndex = 1;
+            // 
+            // labelIcon
+            // 
+            labelIcon.AutoSize = true;
+            labelIcon.Location = new Point(12, 45);
+            labelIcon.Name = "labelIcon";
+            labelIcon.Size = new Size(56, 15);
+            labelIcon.TabIndex = 2;
+            labelIcon.Text = "アイコン(&I):";
+            // 
+            // textBoxIconFile
+            // 
+            textBoxIconFile.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBoxIconFile.Location = new Point(74, 42);
+            textBoxIconFile.Name = "textBoxIconFile";
+            textBoxIconFile.Size = new Size(433, 23);
+            textBoxIconFile.TabIndex = 3;
+            // 
+            // buttonBrowseIcon
+            // 
+            buttonBrowseIcon.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonBrowseIcon.Location = new Point(513, 41);
+            buttonBrowseIcon.Name = "buttonBrowseIcon";
+            buttonBrowseIcon.Size = new Size(75, 23);
+            buttonBrowseIcon.TabIndex = 4;
+            buttonBrowseIcon.Text = "参照";
+            buttonBrowseIcon.UseVisualStyleBackColor = true;
+            buttonBrowseIcon.Click += buttonBrowseIcon_Click;
             // 
             // tabControl
             // 
             tabControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tabControl.Controls.Add(tabPageChatPostMessage);
             tabControl.Controls.Add(tabPageIncomingWebhook);
-            tabControl.Location = new Point(12, 41);
+            tabControl.Location = new Point(12, 71);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(576, 268);
-            tabControl.TabIndex = 2;
+            tabControl.Size = new Size(576, 238);
+            tabControl.TabIndex = 3;
             // 
             // tabPageChatPostMessage
             // 
@@ -90,7 +122,7 @@
             tabPageChatPostMessage.Location = new Point(4, 24);
             tabPageChatPostMessage.Name = "tabPageChatPostMessage";
             tabPageChatPostMessage.Padding = new Padding(3);
-            tabPageChatPostMessage.Size = new Size(568, 240);
+            tabPageChatPostMessage.Size = new Size(568, 210);
             tabPageChatPostMessage.TabIndex = 0;
             tabPageChatPostMessage.Text = "Chat PostMessage";
             tabPageChatPostMessage.UseVisualStyleBackColor = true;
@@ -104,7 +136,7 @@
             textBoxText.Multiline = true;
             textBoxText.Name = "textBoxText";
             textBoxText.ScrollBars = ScrollBars.Both;
-            textBoxText.Size = new Size(479, 170);
+            textBoxText.Size = new Size(479, 140);
             textBoxText.TabIndex = 5;
             textBoxText.WordWrap = false;
             // 
@@ -162,7 +194,7 @@
             tabPageIncomingWebhook.Location = new Point(4, 24);
             tabPageIncomingWebhook.Name = "tabPageIncomingWebhook";
             tabPageIncomingWebhook.Padding = new Padding(3);
-            tabPageIncomingWebhook.Size = new Size(768, 340);
+            tabPageIncomingWebhook.Size = new Size(568, 210);
             tabPageIncomingWebhook.TabIndex = 1;
             tabPageIncomingWebhook.Text = "Incoming Webhook";
             tabPageIncomingWebhook.UseVisualStyleBackColor = true;
@@ -213,7 +245,7 @@
             buttonTest.Location = new Point(351, 315);
             buttonTest.Name = "buttonTest";
             buttonTest.Size = new Size(75, 23);
-            buttonTest.TabIndex = 3;
+            buttonTest.TabIndex = 4;
             buttonTest.Text = "テスト(&T)";
             buttonTest.UseVisualStyleBackColor = true;
             buttonTest.Click += buttonTest_Click;
@@ -224,7 +256,7 @@
             buttonOk.Location = new Point(432, 315);
             buttonOk.Name = "buttonOk";
             buttonOk.Size = new Size(75, 23);
-            buttonOk.TabIndex = 4;
+            buttonOk.TabIndex = 5;
             buttonOk.Text = "OK";
             buttonOk.UseVisualStyleBackColor = true;
             buttonOk.Click += buttonOk_Click;
@@ -235,10 +267,14 @@
             buttonCancel.Location = new Point(513, 315);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(75, 23);
-            buttonCancel.TabIndex = 5;
+            buttonCancel.TabIndex = 6;
             buttonCancel.Text = "キャンセル";
             buttonCancel.UseVisualStyleBackColor = true;
             buttonCancel.Click += buttonCancel_Click;
+            // 
+            // openFileDialogIcon
+            // 
+            openFileDialogIcon.Filter = "イメージ ファイル|*.bmp;*.dib;*.gif;*.jfif;*.jpe;*.jpeg;*.jpg;*.png|JPEG|*.jpg;*.jpeg;*.jpe;*.jfif|PNG|*.png|ビットマップ ファイル|*.bmp;*.dib|GIF|*.gif|すべてのファイル|*.*";
             // 
             // FormEditPostItem
             // 
@@ -251,6 +287,9 @@
             Controls.Add(buttonOk);
             Controls.Add(buttonTest);
             Controls.Add(tabControl);
+            Controls.Add(buttonBrowseIcon);
+            Controls.Add(textBoxIconFile);
+            Controls.Add(labelIcon);
             Controls.Add(textBoxName);
             Controls.Add(labelName);
             MinimizeBox = false;
@@ -271,6 +310,9 @@
 
         private Label labelName;
         private TextBox textBoxName;
+        private Label labelIcon;
+        private TextBox textBoxIconFile;
+        private Button buttonBrowseIcon;
         private TabControl tabControl;
         private TabPage tabPageChatPostMessage;
         private TabPage tabPageIncomingWebhook;
@@ -287,5 +329,6 @@
         private Button buttonTest;
         private Button buttonOk;
         private Button buttonCancel;
+        private OpenFileDialog openFileDialogIcon;
     }
 }

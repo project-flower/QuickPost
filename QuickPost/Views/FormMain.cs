@@ -127,11 +127,14 @@ namespace QuickPost.Views
 
         private void ApplyMenuItems()
         {
-            while (contextMenuStrip.Items[0] != toolStripSeparator2)
+            while (contextMenuStripMain.Items[0] != toolStripSeparator2)
             {
-                ToolStripItem item = contextMenuStrip.Items[0];
+                ToolStripItem item = contextMenuStripMain.Items[0];
+                Image image = item.Image;
+                item.Image = null;
+                image?.Dispose();
                 item.Click -= toolStripMenuItem_Click;
-                contextMenuStrip.Items.Remove(item);
+                contextMenuStripMain.Items.Remove(item);
             }
 
             int index = 0;
@@ -148,8 +151,21 @@ namespace QuickPost.Views
                 {
                 }
 
+                try
+                {
+                    string imageFile = postItem.ImageFile;
+
+                    if (File.Exists(imageFile))
+                    {
+                        item.Image = Image.FromFile(imageFile);
+                    }
+                }
+                catch
+                {
+                }
+
                 item.Click += toolStripMenuItem_Click;
-                contextMenuStrip.Items.Insert(index, item);
+                contextMenuStripMain.Items.Insert(index, item);
                 ++index;
             }
         }
@@ -279,8 +295,11 @@ namespace QuickPost.Views
             }
         }
 
-        private void notifyIcon_Click(object? sender, EventArgs e)
+        private void notifyIcon_MouseClick(object? sender, MouseEventArgs e)
         {
+            ContextMenuStrip contextMenuStrip =
+                ((e.Button == MouseButtons.Left) ? contextMenuStripMain : contextMenuStripSystem);
+
             if (!contextMenuStrip.Visible)
             {
                 // Suppress display of task tray icon
@@ -385,15 +404,13 @@ namespace QuickPost.Views
 
         private void SetNotifyIconEventHandlers()
         {
-            if (Visible && (notifyIcon.ContextMenuStrip != null))
+            if (Visible)
             {
-                notifyIcon.ContextMenuStrip = null;
-                notifyIcon.Click -= notifyIcon_Click;
+                notifyIcon.MouseClick -= notifyIcon_MouseClick;
             }
-            else if (!Visible && (notifyIcon.ContextMenuStrip == null))
+            else
             {
-                notifyIcon.ContextMenuStrip = contextMenuStrip;
-                notifyIcon.Click += notifyIcon_Click;
+                notifyIcon.MouseClick += notifyIcon_MouseClick;
             }
         }
 
@@ -426,7 +443,7 @@ namespace QuickPost.Views
 
         private void UpdateMenuFonts()
         {
-            foreach (ToolStripItem item in contextMenuStrip.Items)
+            foreach (ToolStripItem item in contextMenuStripMain.Items)
             {
                 if (item == toolStripSeparator2) break;
 
@@ -453,6 +470,20 @@ namespace QuickPost.Views
         private void buttonMinimize_Click(object sender, EventArgs e)
         {
             Hide();
+        }
+
+        private void contextMenuStripMain_Opening(object sender, CancelEventArgs e)
+        {
+            Font menuFont = settingView.MenuFont;
+
+            if (menuFont == null) return;
+
+            int height = menuFont.Height;
+
+            if (contextMenuStripMain.ImageScalingSize.Height != height)
+            {
+                contextMenuStripMain.ImageScalingSize = new Size(height, height);
+            }
         }
 
         private void credentialManageViewTokens_CredentialManageViewAddClick(object sender, CredentialManageViewClickEventArgs e)

@@ -12,12 +12,14 @@ namespace QuickPost.Views
             get
             {
                 string name = textBoxName.Text;
+                string iconFileName = textBoxIconFile.Text;
 
                 if (tabControl.SelectedTab == tabPageChatPostMessage)
                 {
                     return new ChatPostMessage()
                     {
                         Channel = textBoxChannel.Text,
+                        ImageFile = iconFileName,
                         Name = name,
                         Text = textBoxText.Text,
                         TokenName = comboBoxTokens.Text
@@ -30,6 +32,7 @@ namespace QuickPost.Views
                     return new IncomingWebhook()
                     {
                         EndpointName = comboBoxUrls.Text,
+                        ImageFile = iconFileName,
                         Name = name,
                         Payload = textBoxPayload.Text
                     };
@@ -39,6 +42,7 @@ namespace QuickPost.Views
             set
             {
                 textBoxName.Text = value != null ? value.Name : string.Empty;
+                textBoxIconFile.Text = value != null ? value.ImageFile : string.Empty;
                 ResetComboBox(comboBoxTokens);
                 textBoxChannel.Text = string.Empty;
                 textBoxText.Text = string.Empty;
@@ -85,6 +89,7 @@ namespace QuickPost.Views
         private void Clear()
         {
             textBoxName.Text = string.Empty;
+            textBoxIconFile.Text = string.Empty;
             ResetComboBox(comboBoxTokens);
             textBoxChannel.Text = string.Empty;
             textBoxText.Text = string.Empty;
@@ -118,6 +123,24 @@ namespace QuickPost.Views
         #endregion
 
         // Designer's Methods
+
+        private void buttonBrowseIcon_Click(object sender, EventArgs e)
+        {
+            string fileName = textBoxIconFile.Text;
+
+            try
+            {
+                openFileDialogIcon.InitialDirectory = Path.GetDirectoryName(fileName);
+                openFileDialogIcon.FileName = Path.GetFileName(fileName);
+            }
+            catch
+            {
+            }
+
+            if (openFileDialogIcon.ShowDialog(this) != DialogResult.OK) return;
+
+            textBoxIconFile.Text = openFileDialogIcon.FileName;
+        }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {

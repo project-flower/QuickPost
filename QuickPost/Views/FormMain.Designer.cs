@@ -38,10 +38,14 @@
             toolStripMenuItemQuit1 = new ToolStripMenuItem();
             toolStripMenuItemHelp = new ToolStripMenuItem();
             toolStripMenuItemVersionInfo = new ToolStripMenuItem();
-            contextMenuStrip = new ContextMenuStrip(components);
+            contextMenuStripMain = new ContextMenuStrip(components);
             toolStripSeparator2 = new ToolStripSeparator();
+            toolStripMenuItemCancelMain = new ToolStripMenuItem();
+            contextMenuStripSystem = new ContextMenuStrip(components);
             toolStripMenuItemSettings = new ToolStripMenuItem();
             toolStripMenuItemQuit2 = new ToolStripMenuItem();
+            toolStripSeparator3 = new ToolStripSeparator();
+            toolStripMenuItemCancelSystem = new ToolStripMenuItem();
             fontDialog = new FontDialog();
             notifyIcon = new NotifyIcon(components);
             tabControl = new TabControl();
@@ -58,7 +62,8 @@
             openFileDialog = new OpenFileDialog();
             saveFileDialog = new SaveFileDialog();
             menuStrip.SuspendLayout();
-            contextMenuStrip.SuspendLayout();
+            contextMenuStripMain.SuspendLayout();
+            contextMenuStripSystem.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageMain.SuspendLayout();
             tabPageTokens.SuspendLayout();
@@ -131,31 +136,55 @@
             toolStripMenuItemVersionInfo.Size = new Size(158, 22);
             toolStripMenuItemVersionInfo.Text = "バージョン情報(&A)";
             // 
-            // contextMenuStrip
+            // contextMenuStripMain
             // 
-            contextMenuStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator2, toolStripMenuItemSettings, toolStripMenuItemQuit2 });
-            contextMenuStrip.Name = "contextMenuStrip";
-            contextMenuStrip.RenderMode = ToolStripRenderMode.System;
-            contextMenuStrip.Size = new Size(114, 54);
+            contextMenuStripMain.Items.AddRange(new ToolStripItem[] { toolStripSeparator2, toolStripMenuItemCancelMain });
+            contextMenuStripMain.Name = "contextMenuStripMain";
+            contextMenuStripMain.Size = new Size(121, 32);
+            contextMenuStripMain.Opening += contextMenuStripMain_Opening;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(110, 6);
+            toolStripSeparator2.Size = new Size(117, 6);
+            // 
+            // toolStripMenuItemCancelMain
+            // 
+            toolStripMenuItemCancelMain.Name = "toolStripMenuItemCancelMain";
+            toolStripMenuItemCancelMain.Size = new Size(120, 22);
+            toolStripMenuItemCancelMain.Text = "キャンセル";
+            // 
+            // contextMenuStripSystem
+            // 
+            contextMenuStripSystem.Items.AddRange(new ToolStripItem[] { toolStripMenuItemSettings, toolStripMenuItemQuit2, toolStripSeparator3, toolStripMenuItemCancelSystem });
+            contextMenuStripSystem.Name = "contextMenuStrip";
+            contextMenuStripSystem.RenderMode = ToolStripRenderMode.System;
+            contextMenuStripSystem.Size = new Size(181, 98);
             // 
             // toolStripMenuItemSettings
             // 
             toolStripMenuItemSettings.Name = "toolStripMenuItemSettings";
-            toolStripMenuItemSettings.Size = new Size(113, 22);
+            toolStripMenuItemSettings.Size = new Size(180, 22);
             toolStripMenuItemSettings.Text = "設定(&S)";
             toolStripMenuItemSettings.Click += toolStripMenuItemSettings_Click;
             // 
             // toolStripMenuItemQuit2
             // 
             toolStripMenuItemQuit2.Name = "toolStripMenuItemQuit2";
-            toolStripMenuItemQuit2.Size = new Size(113, 22);
+            toolStripMenuItemQuit2.Size = new Size(180, 22);
             toolStripMenuItemQuit2.Text = "終了(&X)";
             toolStripMenuItemQuit2.Click += toolStripMenuItemQuit_Click;
+            // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(177, 6);
+            // 
+            // toolStripMenuItemCancelSystem
+            // 
+            toolStripMenuItemCancelSystem.Name = "toolStripMenuItemCancelSystem";
+            toolStripMenuItemCancelSystem.Size = new Size(180, 22);
+            toolStripMenuItemCancelSystem.Text = "キャンセル";
             // 
             // notifyIcon
             // 
@@ -320,13 +349,14 @@
             Resize += resize;
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
-            contextMenuStrip.ResumeLayout(false);
+            contextMenuStripSystem.ResumeLayout(false);
             tabControl.ResumeLayout(false);
             tabPageMain.ResumeLayout(false);
             tabPageMain.PerformLayout();
             tabPageTokens.ResumeLayout(false);
             tabPageWebhooks.ResumeLayout(false);
             tabPageSettings.ResumeLayout(false);
+            contextMenuStripMain.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -342,10 +372,14 @@
         private ToolStripMenuItem toolStripMenuItemQuit1;
         private ToolStripMenuItem toolStripMenuItemHelp;
         private ToolStripMenuItem toolStripMenuItemVersionInfo;
-        private ContextMenuStrip contextMenuStrip;
+        private ContextMenuStrip contextMenuStripMain;
         private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem toolStripMenuItemCancelMain;
+        private ContextMenuStrip contextMenuStripSystem;
         private ToolStripMenuItem toolStripMenuItemSettings;
         private ToolStripMenuItem toolStripMenuItemQuit2;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem toolStripMenuItemCancelSystem;
         private FontDialog fontDialog;
         private NotifyIcon notifyIcon;
         private TabControl tabControl;

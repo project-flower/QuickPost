@@ -8,6 +8,7 @@ namespace QuickPost.Models
     {
         #region Public Properties
 
+        public string ImageFile { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
 
         #endregion
