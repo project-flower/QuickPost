@@ -139,6 +139,15 @@ namespace QuickPost.Views
             foreach (PostItem postItem in mainView.Items)
             {
                 ToolStripMenuItem item = new(postItem.Name) { Tag = postItem };
+
+                try
+                {
+                    item.Font = settingView.MenuFont;
+                }
+                catch
+                {
+                }
+
                 item.Click += toolStripMenuItem_Click;
                 contextMenuStrip.Items.Insert(index, item);
                 ++index;
@@ -251,7 +260,6 @@ namespace QuickPost.Views
                 credentialManageViewTokens.Values = ToEnumerable(settings.ChatPostTokens);
                 credentialManageViewWebhooks.Values = ToEnumerable(settings.WebhookUrls);
                 StringCollection postItems = settings.PostItems;
-                List<PostItem> list = new();
 
                 if (postItems != null)
                 {
@@ -351,6 +359,7 @@ namespace QuickPost.Views
             {
                 settings.ChatPostTokens = ToStringCollection(credentialManageViewTokens.Values);
                 settings.WebhookUrls = ToStringCollection(credentialManageViewWebhooks.Values);
+                settings.MenuFont = settingView.MenuFont;
                 settings.BalloonTipTimeout = settingView.BalloonTipTimeout;
                 settings.IsUserSettings = true;
                 StringCollection postItems = new();
@@ -413,6 +422,22 @@ namespace QuickPost.Views
         private void toolStripMenuItem_Click(object? sender, EventArgs e)
         {
             PostMessage((PostItem)((ToolStripMenuItem)sender!).Tag);
+        }
+
+        private void UpdateMenuFonts()
+        {
+            foreach (ToolStripItem item in contextMenuStrip.Items)
+            {
+                if (item == toolStripSeparator2) break;
+
+                try
+                {
+                    item.Font = settingView.MenuFont;
+                }
+                catch
+                {
+                }
+            }
         }
 
         #endregion
@@ -535,6 +560,17 @@ namespace QuickPost.Views
         {
             settings.BalloonTipTimeout = settingView.BalloonTipTimeout;
             e.Accepted = SaveSettings(true);
+        }
+
+        private void settingView_ButtonSelectFontClick(object sender, EventArgs e)
+        {
+            fontDialog.Font = settingView.MenuFont;
+
+            if (fontDialog.ShowDialog() != DialogResult.OK) return;
+
+            settingView.MenuFont = fontDialog.Font;
+            UpdateMenuFonts();
+            settingView.IsDirty = true;
         }
 
         private void shown(object sender, EventArgs e)

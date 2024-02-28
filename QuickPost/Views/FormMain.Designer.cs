@@ -42,6 +42,7 @@
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripMenuItemSettings = new ToolStripMenuItem();
             toolStripMenuItemQuit2 = new ToolStripMenuItem();
+            fontDialog = new FontDialog();
             notifyIcon = new NotifyIcon(components);
             tabControl = new TabControl();
             tabPageMain = new TabPage();
@@ -189,6 +190,7 @@
             // 
             mainView.AutoSize = true;
             mainView.Dock = DockStyle.Fill;
+            mainView.IsDirty = false;
             mainView.Location = new Point(3, 3);
             mainView.Name = "mainView";
             mainView.Size = new Size(762, 348);
@@ -211,6 +213,7 @@
             // credentialManageViewTokens
             // 
             credentialManageViewTokens.Dock = DockStyle.Fill;
+            credentialManageViewTokens.IsDirty = false;
             credentialManageViewTokens.Location = new Point(3, 3);
             credentialManageViewTokens.Name = "credentialManageViewTokens";
             credentialManageViewTokens.Size = new Size(762, 348);
@@ -232,6 +235,7 @@
             // credentialManageViewWebhooks
             // 
             credentialManageViewWebhooks.Dock = DockStyle.Fill;
+            credentialManageViewWebhooks.IsDirty = false;
             credentialManageViewWebhooks.Location = new Point(0, 0);
             credentialManageViewWebhooks.Name = "credentialManageViewWebhooks";
             credentialManageViewWebhooks.Size = new Size(768, 354);
@@ -254,11 +258,14 @@
             // 
             settingView.BalloonTipTimeout = 0;
             settingView.Dock = DockStyle.Fill;
+            settingView.IsDirty = false;
             settingView.Location = new Point(0, 0);
+            settingView.MenuFont = null;
             settingView.Name = "settingView";
             settingView.Size = new Size(768, 354);
             settingView.TabIndex = 0;
             settingView.ApplyBalloonTipTimeoutClick += settingView_ApplyBalloonTipTimeoutClick;
+            settingView.ButtonSelectFontClick += settingView_ButtonSelectFontClick;
             // 
             // buttonApply
             // 
@@ -339,6 +346,7 @@
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem toolStripMenuItemSettings;
         private ToolStripMenuItem toolStripMenuItemQuit2;
+        private FontDialog fontDialog;
         private NotifyIcon notifyIcon;
         private TabControl tabControl;
         private TabPage tabPageMain;

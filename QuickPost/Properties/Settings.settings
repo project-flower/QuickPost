@@ -23,6 +23,9 @@
     <Setting Name="IsUserSettings" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="MenuFont" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">MS UI Gothic, 9pt</Value>
+    </Setting>
     <Setting Name="PostItems" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

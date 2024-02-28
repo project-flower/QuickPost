@@ -1,4 +1,5 @@
-﻿using QuickPost.Events;
+﻿using Newtonsoft.Json.Linq;
+using QuickPost.Events;
 using QuickPost.Properties;
 using System.Configuration;
 using System.Diagnostics;
@@ -12,6 +13,7 @@ namespace QuickPost.Views
     {
         #region Private Fields
 
+        private Font menuFont = null;
         private readonly Settings settings = Settings.Default;
 
         #endregion
@@ -19,6 +21,7 @@ namespace QuickPost.Views
         #region Public Properties
 
         public event RequireAcceptEventHandler ApplyBalloonTipTimeoutClick = delegate { };
+        public event EventHandler ButtonSelectFontClick = delegate { };
 
         public int BalloonTipTimeout
         {
@@ -53,8 +56,29 @@ namespace QuickPost.Views
 
             set
             {
-                buttonApplyBalloonTipTimeout.Enabled = value;
                 isDirty = value;
+            }
+        }
+
+        public Font MenuFont
+        {
+            get => menuFont;
+
+            set
+            {
+                menuFont = value;
+                string fontName;
+
+                if (menuFont == null)
+                {
+                    fontName = string.Empty;
+                }
+                else
+                {
+                    fontName = $"{menuFont.Name} {menuFont.SizeInPoints}pt.";
+                }
+
+                textBoxMenuFont.Text = fontName;
             }
         }
 
@@ -90,6 +114,7 @@ namespace QuickPost.Views
         {
             try
             {
+                MenuFont = settings.MenuFont;
                 BalloonTipTimeout = settings.BalloonTipTimeout;
                 textBoxChatPostMessageEndpoint.Text = settings.ChatPostMessageEndpoint;
                 textBoxIncomingWebhookRoot.Text = settings.IncomingWebhookRoot;
@@ -129,6 +154,11 @@ namespace QuickPost.Views
             ApplyBalloonTipTimeoutClick(this, args);
         }
 
+        private void buttonMenuFont_Click(object sender, EventArgs e)
+        {
+            ButtonSelectFontClick(this, new EventArgs());
+        }
+
         private void buttonReferSettingFile_Click(object sender, EventArgs e)
         {
             ShowInExplorer(textBoxSettingFileName.Text);
@@ -136,7 +166,8 @@ namespace QuickPost.Views
 
         private void numericUpDownBalloonTipTimeout_ValueChanged(object sender, EventArgs e)
         {
-            IsDirty = true;
+            buttonApplyBalloonTipTimeout.Enabled = true;
+            isDirty = true;
         }
     }
 }
