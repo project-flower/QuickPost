@@ -129,6 +129,8 @@
             // 
             // textBoxText
             // 
+            textBoxText.AcceptsReturn = true;
+            textBoxText.AcceptsTab = true;
             textBoxText.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             textBoxText.Font = new Font("ＭＳ ゴシック", 9F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxText.Location = new Point(83, 64);
@@ -201,13 +203,15 @@
             // 
             // textBoxPayload
             // 
+            textBoxPayload.AcceptsReturn = true;
+            textBoxPayload.AcceptsTab = true;
             textBoxPayload.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             textBoxPayload.Font = new Font("ＭＳ ゴシック", 9F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxPayload.Location = new Point(81, 35);
             textBoxPayload.Multiline = true;
             textBoxPayload.Name = "textBoxPayload";
             textBoxPayload.ScrollBars = ScrollBars.Both;
-            textBoxPayload.Size = new Size(681, 299);
+            textBoxPayload.Size = new Size(481, 169);
             textBoxPayload.TabIndex = 3;
             textBoxPayload.WordWrap = false;
             // 
