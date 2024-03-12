@@ -26,6 +26,9 @@
     <Setting Name="MenuFont" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)">MS UI Gothic, 9pt</Value>
     </Setting>
+    <Setting Name="MenuIconSize" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
     <Setting Name="PostItems" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

@@ -108,6 +108,18 @@ namespace QuickPost.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public uint MenuIconSize {
+            get {
+                return ((uint)(this["MenuIconSize"]));
+            }
+            set {
+                this["MenuIconSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection PostItems {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["PostItems"]));
