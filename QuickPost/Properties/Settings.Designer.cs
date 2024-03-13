@@ -26,9 +26,9 @@ namespace QuickPost.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3000")]
-        public int BalloonTipTimeout {
+        public ushort BalloonTipTimeout {
             get {
-                return ((int)(this["BalloonTipTimeout"]));
+                return ((ushort)(this["BalloonTipTimeout"]));
             }
             set {
                 this["BalloonTipTimeout"] = value;
@@ -109,9 +109,9 @@ namespace QuickPost.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16")]
-        public uint MenuIconSize {
+        public ushort MenuIconSize {
             get {
-                return ((uint)(this["MenuIconSize"]));
+                return ((ushort)(this["MenuIconSize"]));
             }
             set {
                 this["MenuIconSize"] = value;

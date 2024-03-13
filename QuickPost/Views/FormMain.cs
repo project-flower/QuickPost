@@ -16,12 +16,14 @@ namespace QuickPost.Views
     {
         #region Privte Fields
 
+        private ushort balloonTipTimeout;
         private readonly FormEditPostItem formEditPostItem = new();
         private readonly FormEditCredential formEditToken = new() { Text = "トークン", NameOfValue = "トークン" };
         private readonly FormEditCredential formEditWebhook = new() { Text = "Webhook", NameOfValue = "Webhook URL" };
         private readonly Exception? initializationException;
         /// <summary>変更されたアプリケーション設定が保存されていない場合、true。</summary>
         private bool isDirty = false;
+        private Font menuFont;
         private FormWindowState prevWindowState = FormWindowState.Normal;
         private readonly Settings settings = Settings.Default;
         private readonly MethodInfo? showContextMenuInTaskbar;
@@ -39,6 +41,7 @@ namespace QuickPost.Views
         public FormMain()
         {
             InitializeComponent();
+            menuFont = contextMenuStripMain.Font;
 
             // Get protected methods
             showContextMenuInTaskbar = typeof(ContextMenuStrip).GetMethod("ShowInTaskbar", (BindingFlags.Instance | BindingFlags.NonPublic));
@@ -151,7 +154,7 @@ namespace QuickPost.Views
 
                 try
                 {
-                    item.Font = settingView.MenuFont;
+                    item.Font = menuFont;
                 }
                 catch
                 {
@@ -174,6 +177,15 @@ namespace QuickPost.Views
                 contextMenuStripMain.Items.Insert(index, item);
                 ++index;
             }
+        }
+
+        private void ApplySettings()
+        {
+            balloonTipTimeout = settingView.BalloonTipTimeout;
+            int height = settingView.MenuIconSize;
+            contextMenuStripMain.ImageScalingSize = new Size(height, height);
+            UpdateMenuFonts();
+            SaveSettings(true);
         }
 
         private bool ConfirmApplicationQuit()
@@ -279,6 +291,10 @@ namespace QuickPost.Views
                 if (loadFile) settings.Reload();
 
                 WebEngine.Initialize(settings.ChatPostMessageEndpoint, settings.CredTokenPrefix, settings.CredWebhookPrefix);
+                balloonTipTimeout = settings.BalloonTipTimeout;
+                menuFont = settings.MenuFont;
+                int height = settings.MenuIconSize;
+                contextMenuStripMain.ImageScalingSize = new Size(height, height);
                 credentialManageViewTokens.Values = ToEnumerable(settings.ChatPostTokens);
                 credentialManageViewWebhooks.Values = ToEnumerable(settings.WebhookUrls);
                 StringCollection postItems = settings.PostItems;
@@ -336,9 +352,7 @@ namespace QuickPost.Views
                 exception = exception_;
             }
 
-            int timeout = settings.BalloonTipTimeout;
-
-            if (timeout < 1) return;
+            if (balloonTipTimeout < 1) return;
 
             string message;
             ToolTipIcon icon;
@@ -354,7 +368,7 @@ namespace QuickPost.Views
                 icon = ToolTipIcon.Error;
             }
 
-            notifyIcon.ShowBalloonTip(timeout, Text, message, icon);
+            notifyIcon.ShowBalloonTip(balloonTipTimeout, Text, message, icon);
         }
 
         private void RestoreDirty()
@@ -384,8 +398,9 @@ namespace QuickPost.Views
             {
                 settings.ChatPostTokens = ToStringCollection(credentialManageViewTokens.Values);
                 settings.WebhookUrls = ToStringCollection(credentialManageViewWebhooks.Values);
-                settings.MenuFont = settingView.MenuFont;
-                settings.BalloonTipTimeout = settingView.BalloonTipTimeout;
+                settings.MenuFont = menuFont;
+                settings.BalloonTipTimeout = balloonTipTimeout;
+                settings.MenuIconSize = (ushort)contextMenuStripMain.ImageScalingSize.Height;
                 settings.IsUserSettings = true;
                 StringCollection postItems = new();
                 postItems.Clear();
@@ -449,13 +464,15 @@ namespace QuickPost.Views
 
         private void UpdateMenuFonts()
         {
+            menuFont = settingView.MenuFont;
+
             foreach (ToolStripItem item in contextMenuStripMain.Items)
             {
                 if (item == toolStripSeparator2) break;
 
                 try
                 {
-                    item.Font = settingView.MenuFont;
+                    item.Font = menuFont;
                 }
                 catch
                 {
@@ -470,26 +487,13 @@ namespace QuickPost.Views
         private void buttonApply_Click(object sender, EventArgs e)
         {
             ApplyMenuItems();
+            ApplySettings();
             Hide();
         }
 
         private void buttonMinimize_Click(object sender, EventArgs e)
         {
             Hide();
-        }
-
-        private void contextMenuStripMain_Opening(object sender, CancelEventArgs e)
-        {
-            Font menuFont = settingView.MenuFont;
-
-            if (menuFont == null) return;
-
-            int height = menuFont.Height;
-
-            if (contextMenuStripMain.ImageScalingSize.Height != height)
-            {
-                contextMenuStripMain.ImageScalingSize = new Size(height, height);
-            }
         }
 
         private void credentialManageViewTokens_CredentialManageViewAddClick(object sender, CredentialManageViewClickEventArgs e)
@@ -593,12 +597,6 @@ namespace QuickPost.Views
             }
         }
 
-        private void settingView_ApplyBalloonTipTimeoutClick(object sender, RequireAcceptEventArgs e)
-        {
-            settings.BalloonTipTimeout = settingView.BalloonTipTimeout;
-            e.Accepted = SaveSettings(true);
-        }
-
         private void settingView_ButtonSelectFontClick(object sender, EventArgs e)
         {
             fontDialog.Font = settingView.MenuFont;
@@ -606,7 +604,6 @@ namespace QuickPost.Views
             if (fontDialog.ShowDialog() != DialogResult.OK) return;
 
             settingView.MenuFont = fontDialog.Font;
-            UpdateMenuFonts();
             settingView.IsDirty = true;
         }
 

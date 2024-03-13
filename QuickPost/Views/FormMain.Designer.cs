@@ -141,7 +141,6 @@
             contextMenuStripMain.Items.AddRange(new ToolStripItem[] { toolStripSeparator2, toolStripMenuItemCancelMain });
             contextMenuStripMain.Name = "contextMenuStripMain";
             contextMenuStripMain.Size = new Size(121, 32);
-            contextMenuStripMain.Opening += contextMenuStripMain_Opening;
             // 
             // toolStripSeparator2
             // 
@@ -293,7 +292,6 @@
             settingView.Name = "settingView";
             settingView.Size = new Size(768, 354);
             settingView.TabIndex = 0;
-            settingView.ApplyBalloonTipTimeoutClick += settingView_ApplyBalloonTipTimeoutClick;
             settingView.ButtonSelectFontClick += settingView_ButtonSelectFontClick;
             // 
             // buttonApply

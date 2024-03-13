@@ -34,9 +34,10 @@
             labelMenuFont = new Label();
             textBoxMenuFont = new TextBox();
             buttonMenuFont = new Button();
+            labelMenuIconSize = new Label();
+            numericUpDownMenuIconSize = new NumericUpDown();
             labelBalloonTipTimeout = new Label();
             numericUpDownBalloonTipTimeout = new NumericUpDown();
-            buttonApplyBalloonTipTimeout = new Button();
             labelChatPostMessageEndpoint = new Label();
             textBoxChatPostMessageEndpoint = new TextBox();
             labelIncomingWebhookRoot = new Label();
@@ -45,6 +46,7 @@
             textBoxCredTokenPrefix = new TextBox();
             labelCredWebhookPrefix = new Label();
             textBoxCredWebhookPrefix = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMenuIconSize).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownBalloonTipTimeout).BeginInit();
             SuspendLayout();
             // 
@@ -80,7 +82,7 @@
             // labelMenuFont
             // 
             labelMenuFont.AutoSize = true;
-            labelMenuFont.Location = new Point(3, 88);
+            labelMenuFont.Location = new Point(3, 44);
             labelMenuFont.Name = "labelMenuFont";
             labelMenuFont.Size = new Size(79, 15);
             labelMenuFont.TabIndex = 3;
@@ -89,7 +91,7 @@
             // textBoxMenuFont
             // 
             textBoxMenuFont.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxMenuFont.Location = new Point(3, 106);
+            textBoxMenuFont.Location = new Point(3, 62);
             textBoxMenuFont.Name = "textBoxMenuFont";
             textBoxMenuFont.ReadOnly = true;
             textBoxMenuFont.Size = new Size(313, 23);
@@ -98,7 +100,7 @@
             // buttonMenuFont
             // 
             buttonMenuFont.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonMenuFont.Location = new Point(322, 105);
+            buttonMenuFont.Location = new Point(322, 62);
             buttonMenuFont.Name = "buttonMenuFont";
             buttonMenuFont.Size = new Size(75, 23);
             buttonMenuFont.TabIndex = 5;
@@ -106,109 +108,119 @@
             buttonMenuFont.UseVisualStyleBackColor = true;
             buttonMenuFont.Click += buttonMenuFont_Click;
             // 
+            // labelMenuIconSize
+            // 
+            labelMenuIconSize.AutoSize = true;
+            labelMenuIconSize.Location = new Point(3, 88);
+            labelMenuIconSize.Name = "labelMenuIconSize";
+            labelMenuIconSize.Size = new Size(73, 15);
+            labelMenuIconSize.TabIndex = 6;
+            labelMenuIconSize.Text = "アイコン サイズ";
+            // 
+            // numericUpDownMenuIconSize
+            // 
+            numericUpDownMenuIconSize.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            numericUpDownMenuIconSize.Location = new Point(3, 106);
+            numericUpDownMenuIconSize.Maximum = new decimal(new int[] { 128, 0, 0, 0 });
+            numericUpDownMenuIconSize.Minimum = new decimal(new int[] { 16, 0, 0, 0 });
+            numericUpDownMenuIconSize.Name = "numericUpDownMenuIconSize";
+            numericUpDownMenuIconSize.Size = new Size(394, 23);
+            numericUpDownMenuIconSize.TabIndex = 7;
+            numericUpDownMenuIconSize.TextAlign = HorizontalAlignment.Right;
+            numericUpDownMenuIconSize.Value = new decimal(new int[] { 16, 0, 0, 0 });
+            numericUpDownMenuIconSize.ValueChanged += numericUpDown_ValueChanged;
+            // 
             // labelBalloonTipTimeout
             // 
             labelBalloonTipTimeout.AutoSize = true;
-            labelBalloonTipTimeout.Location = new Point(3, 44);
+            labelBalloonTipTimeout.Location = new Point(3, 132);
             labelBalloonTipTimeout.Name = "labelBalloonTipTimeout";
             labelBalloonTipTimeout.Size = new Size(172, 15);
-            labelBalloonTipTimeout.TabIndex = 6;
+            labelBalloonTipTimeout.TabIndex = 8;
             labelBalloonTipTimeout.Text = "バルーン ヒント タイムアウト (msec.):";
             // 
             // numericUpDownBalloonTipTimeout
             // 
             numericUpDownBalloonTipTimeout.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            numericUpDownBalloonTipTimeout.Location = new Point(3, 62);
+            numericUpDownBalloonTipTimeout.Location = new Point(3, 150);
             numericUpDownBalloonTipTimeout.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericUpDownBalloonTipTimeout.Name = "numericUpDownBalloonTipTimeout";
-            numericUpDownBalloonTipTimeout.Size = new Size(313, 23);
-            numericUpDownBalloonTipTimeout.TabIndex = 7;
+            numericUpDownBalloonTipTimeout.Size = new Size(394, 23);
+            numericUpDownBalloonTipTimeout.TabIndex = 9;
             numericUpDownBalloonTipTimeout.TextAlign = HorizontalAlignment.Right;
-            numericUpDownBalloonTipTimeout.ValueChanged += numericUpDownBalloonTipTimeout_ValueChanged;
-            // 
-            // buttonApplyBalloonTipTimeout
-            // 
-            buttonApplyBalloonTipTimeout.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonApplyBalloonTipTimeout.Enabled = false;
-            buttonApplyBalloonTipTimeout.Location = new Point(322, 62);
-            buttonApplyBalloonTipTimeout.Name = "buttonApplyBalloonTipTimeout";
-            buttonApplyBalloonTipTimeout.Size = new Size(75, 23);
-            buttonApplyBalloonTipTimeout.TabIndex = 8;
-            buttonApplyBalloonTipTimeout.Text = "適用";
-            buttonApplyBalloonTipTimeout.UseVisualStyleBackColor = true;
-            buttonApplyBalloonTipTimeout.Click += buttonApplyBalloonTipTimeout_Click;
+            numericUpDownBalloonTipTimeout.ValueChanged += numericUpDown_ValueChanged;
             // 
             // labelChatPostMessageEndpoint
             // 
             labelChatPostMessageEndpoint.AutoSize = true;
-            labelChatPostMessageEndpoint.Location = new Point(3, 132);
+            labelChatPostMessageEndpoint.Location = new Point(3, 176);
             labelChatPostMessageEndpoint.Name = "labelChatPostMessageEndpoint";
             labelChatPostMessageEndpoint.Size = new Size(159, 15);
-            labelChatPostMessageEndpoint.TabIndex = 9;
+            labelChatPostMessageEndpoint.TabIndex = 10;
             labelChatPostMessageEndpoint.Text = "Slack chat.postMessage URL:";
             // 
             // textBoxChatPostMessageEndpoint
             // 
             textBoxChatPostMessageEndpoint.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxChatPostMessageEndpoint.Location = new Point(3, 150);
+            textBoxChatPostMessageEndpoint.Location = new Point(3, 194);
             textBoxChatPostMessageEndpoint.Name = "textBoxChatPostMessageEndpoint";
             textBoxChatPostMessageEndpoint.ReadOnly = true;
             textBoxChatPostMessageEndpoint.Size = new Size(394, 23);
-            textBoxChatPostMessageEndpoint.TabIndex = 10;
+            textBoxChatPostMessageEndpoint.TabIndex = 11;
             // 
             // labelIncomingWebhookRoot
             // 
             labelIncomingWebhookRoot.AutoSize = true;
-            labelIncomingWebhookRoot.Location = new Point(3, 176);
+            labelIncomingWebhookRoot.Location = new Point(3, 220);
             labelIncomingWebhookRoot.Name = "labelIncomingWebhookRoot";
             labelIncomingWebhookRoot.Size = new Size(167, 15);
-            labelIncomingWebhookRoot.TabIndex = 11;
+            labelIncomingWebhookRoot.TabIndex = 12;
             labelIncomingWebhookRoot.Text = "Incoming Webhook ルート URL:";
             // 
             // textBoxIncomingWebhookRoot
             // 
             textBoxIncomingWebhookRoot.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxIncomingWebhookRoot.Location = new Point(3, 194);
+            textBoxIncomingWebhookRoot.Location = new Point(3, 238);
             textBoxIncomingWebhookRoot.Name = "textBoxIncomingWebhookRoot";
             textBoxIncomingWebhookRoot.ReadOnly = true;
             textBoxIncomingWebhookRoot.Size = new Size(394, 23);
-            textBoxIncomingWebhookRoot.TabIndex = 12;
+            textBoxIncomingWebhookRoot.TabIndex = 13;
             // 
             // labelCredTokenPrefix
             // 
             labelCredTokenPrefix.AutoSize = true;
-            labelCredTokenPrefix.Location = new Point(3, 220);
+            labelCredTokenPrefix.Location = new Point(3, 264);
             labelCredTokenPrefix.Name = "labelCredTokenPrefix";
             labelCredTokenPrefix.Size = new Size(149, 15);
-            labelCredTokenPrefix.TabIndex = 13;
+            labelCredTokenPrefix.TabIndex = 14;
             labelCredTokenPrefix.Text = "資格情報 トークン プレフィクス:";
             // 
             // textBoxCredTokenPrefix
             // 
             textBoxCredTokenPrefix.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxCredTokenPrefix.Location = new Point(3, 238);
+            textBoxCredTokenPrefix.Location = new Point(3, 282);
             textBoxCredTokenPrefix.Name = "textBoxCredTokenPrefix";
             textBoxCredTokenPrefix.ReadOnly = true;
             textBoxCredTokenPrefix.Size = new Size(394, 23);
-            textBoxCredTokenPrefix.TabIndex = 14;
+            textBoxCredTokenPrefix.TabIndex = 15;
             // 
             // labelCredWebhookPrefix
             // 
             labelCredWebhookPrefix.AutoSize = true;
-            labelCredWebhookPrefix.Location = new Point(3, 264);
+            labelCredWebhookPrefix.Location = new Point(3, 308);
             labelCredWebhookPrefix.Name = "labelCredWebhookPrefix";
             labelCredWebhookPrefix.Size = new Size(219, 15);
-            labelCredWebhookPrefix.TabIndex = 15;
+            labelCredWebhookPrefix.TabIndex = 16;
             labelCredWebhookPrefix.Text = "資格情報 Incoming Webhook プレフィクス:";
             // 
             // textBoxCredWebhookPrefix
             // 
             textBoxCredWebhookPrefix.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxCredWebhookPrefix.Location = new Point(3, 282);
+            textBoxCredWebhookPrefix.Location = new Point(3, 326);
             textBoxCredWebhookPrefix.Name = "textBoxCredWebhookPrefix";
             textBoxCredWebhookPrefix.ReadOnly = true;
             textBoxCredWebhookPrefix.Size = new Size(394, 23);
-            textBoxCredWebhookPrefix.TabIndex = 16;
+            textBoxCredWebhookPrefix.TabIndex = 17;
             // 
             // SettingView
             // 
@@ -222,9 +234,10 @@
             Controls.Add(labelIncomingWebhookRoot);
             Controls.Add(textBoxChatPostMessageEndpoint);
             Controls.Add(labelChatPostMessageEndpoint);
-            Controls.Add(buttonApplyBalloonTipTimeout);
             Controls.Add(numericUpDownBalloonTipTimeout);
             Controls.Add(labelBalloonTipTimeout);
+            Controls.Add(numericUpDownMenuIconSize);
+            Controls.Add(labelMenuIconSize);
             Controls.Add(buttonMenuFont);
             Controls.Add(textBoxMenuFont);
             Controls.Add(labelMenuFont);
@@ -232,7 +245,8 @@
             Controls.Add(textBoxSettingFileName);
             Controls.Add(labelSettingFilePath);
             Name = "SettingView";
-            Size = new Size(400, 308);
+            Size = new Size(400, 352);
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMenuIconSize).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownBalloonTipTimeout).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -246,9 +260,10 @@
         private Label labelMenuFont;
         private TextBox textBoxMenuFont;
         private Button buttonMenuFont;
+        private Label labelMenuIconSize;
+        private NumericUpDown numericUpDownMenuIconSize;
         private Label labelBalloonTipTimeout;
         private NumericUpDown numericUpDownBalloonTipTimeout;
-        private Button buttonApplyBalloonTipTimeout;
         private Label labelChatPostMessageEndpoint;
         private TextBox textBoxChatPostMessageEndpoint;
         private Label labelIncomingWebhookRoot;

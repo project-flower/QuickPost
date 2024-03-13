@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="QuickPost.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="BalloonTipTimeout" Type="System.Int32" Scope="User">
+    <Setting Name="BalloonTipTimeout" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">3000</Value>
     </Setting>
     <Setting Name="ChatPostMessageEndpoint" Type="System.String" Scope="Application">
@@ -26,7 +26,7 @@
     <Setting Name="MenuFont" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)">MS UI Gothic, 9pt</Value>
     </Setting>
-    <Setting Name="MenuIconSize" Type="System.UInt32" Scope="User">
+    <Setting Name="MenuIconSize" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">16</Value>
     </Setting>
     <Setting Name="PostItems" Type="System.Collections.Specialized.StringCollection" Scope="User">

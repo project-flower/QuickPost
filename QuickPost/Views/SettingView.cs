@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using QuickPost.Events;
+﻿using QuickPost.Events;
 using QuickPost.Properties;
-using System.Configuration;
 using System.Diagnostics;
 
 namespace QuickPost.Views
@@ -13,41 +11,21 @@ namespace QuickPost.Views
     {
         #region Private Fields
 
-        private Font menuFont = null;
+        private bool isDirty = false;
+        private Font menuFont;
         private readonly Settings settings = Settings.Default;
 
         #endregion
 
         #region Public Properties
 
-        public event RequireAcceptEventHandler ApplyBalloonTipTimeoutClick = delegate { };
         public event EventHandler ButtonSelectFontClick = delegate { };
 
-        public int BalloonTipTimeout
+        public ushort BalloonTipTimeout
         {
-            get => (int)numericUpDownBalloonTipTimeout.Value;
+            get => (ushort)numericUpDownBalloonTipTimeout.Value;
 
-            set
-            {
-                decimal maximum = numericUpDownBalloonTipTimeout.Maximum;
-                decimal minimum = numericUpDownBalloonTipTimeout.Minimum;
-                decimal newValue;
-
-                if (value > maximum)
-                {
-                    newValue = maximum;
-                }
-                else if (value < minimum)
-                {
-                    newValue = minimum;
-                }
-                else
-                {
-                    newValue = value;
-                }
-
-                numericUpDownBalloonTipTimeout.Value = newValue;
-            }
+            set { SetValue(numericUpDownBalloonTipTimeout, value); }
         }
 
         public bool IsDirty
@@ -82,11 +60,12 @@ namespace QuickPost.Views
             }
         }
 
-        #endregion
+        public ushort MenuIconSize
+        {
+            get => (ushort)numericUpDownMenuIconSize.Value;
 
-        #region Private Fields
-
-        private bool isDirty = false;
+            set { SetValue(numericUpDownMenuIconSize, value); }
+        }
 
         #endregion
 
@@ -95,6 +74,7 @@ namespace QuickPost.Views
         public SettingView()
         {
             InitializeComponent();
+            menuFont = Font;
             settings.SettingsLoaded += settings_SettingsLoaded;
 
             try
@@ -116,6 +96,7 @@ namespace QuickPost.Views
             {
                 MenuFont = settings.MenuFont;
                 BalloonTipTimeout = settings.BalloonTipTimeout;
+                MenuIconSize = settings.MenuIconSize;
                 textBoxChatPostMessageEndpoint.Text = settings.ChatPostMessageEndpoint;
                 textBoxIncomingWebhookRoot.Text = settings.IncomingWebhookRoot;
                 textBoxCredTokenPrefix.Text = settings.CredTokenPrefix;
@@ -133,6 +114,28 @@ namespace QuickPost.Views
             Apply();
         }
 
+        private void SetValue(NumericUpDown numericUpDown, ushort value)
+        {
+            decimal maximum = numericUpDown.Maximum;
+            decimal minimum = numericUpDown.Minimum;
+            decimal newValue;
+
+            if (value > maximum)
+            {
+                newValue = maximum;
+            }
+            else if (value < minimum)
+            {
+                newValue = minimum;
+            }
+            else
+            {
+                newValue = value;
+            }
+
+            numericUpDown.Value = newValue;
+        }
+
         private static void ShowInExplorer(string fileName)
         {
             try
@@ -148,12 +151,6 @@ namespace QuickPost.Views
 
         // Designer'd Methods
 
-        private void buttonApplyBalloonTipTimeout_Click(object sender, EventArgs e)
-        {
-            RequireAcceptEventArgs args = new();
-            ApplyBalloonTipTimeoutClick(this, args);
-        }
-
         private void buttonMenuFont_Click(object sender, EventArgs e)
         {
             ButtonSelectFontClick(this, new EventArgs());
@@ -164,9 +161,8 @@ namespace QuickPost.Views
             ShowInExplorer(textBoxSettingFileName.Text);
         }
 
-        private void numericUpDownBalloonTipTimeout_ValueChanged(object sender, EventArgs e)
+        private void numericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            buttonApplyBalloonTipTimeout.Enabled = true;
             isDirty = true;
         }
     }
