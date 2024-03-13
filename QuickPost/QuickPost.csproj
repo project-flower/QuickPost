@@ -8,8 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Authors>Project Flower</Authors>
     <Company>Project Flower</Company>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
